@@ -35,3 +35,8 @@ build/
 *.pkl
 *.joblib
 *.bin
+
+# Database
+*.db
+*.sqlite
+*.sqlite3

@@ -13,13 +13,15 @@ function App() {
     fetchStats()
   }, [])
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001'
+
   const fetchTickets = async () => {
     try {
       const params = new URLSearchParams()
       if (filter.department) params.append('department', filter.department)
       if (filter.status) params.append('status', filter.status)
       
-      const response = await axios.get(`/api/tickets?${params}`)
+      const response = await axios.get(`${API_URL}/api/tickets?${params}`)
       setTickets(response.data)
     } catch (error) {
       console.error('Error fetching tickets:', error)
@@ -28,7 +30,7 @@ function App() {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get('/api/stats/dashboard')
+      const response = await axios.get(`${API_URL}/api/stats/dashboard`)
       setStats(response.data)
     } catch (error) {
       console.error('Error fetching stats:', error)
@@ -37,7 +39,7 @@ function App() {
 
   const handleCreateTicket = async (ticketData) => {
     try {
-      await axios.post('/api/tickets', ticketData)
+      await axios.post(`${API_URL}/api/tickets`, ticketData)
       fetchTickets()
       fetchStats()
       setActiveTab('tickets')
@@ -48,7 +50,7 @@ function App() {
 
   const handleUpdateStatus = async (ticketId, status) => {
     try {
-      await axios.put(`/api/tickets/${ticketId}/status?status=${status}`)
+      await axios.put(`${API_URL}/api/tickets/${ticketId}/status?status=${status}`)
       fetchTickets()
       fetchStats()
     } catch (error) {
@@ -58,7 +60,7 @@ function App() {
 
   const handleDeleteTicket = async (ticketId) => {
     try {
-      await axios.delete(`/api/tickets/${ticketId}`)
+      await axios.delete(`${API_URL}/api/tickets/${ticketId}`)
       fetchTickets()
       fetchStats()
     } catch (error) {
